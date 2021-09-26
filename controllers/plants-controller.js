@@ -14,12 +14,23 @@ const getPlants = async (req, res, next) => {
 
 const getPlantByName = async (req, res, next) => {
   let plant;
-  try {
-    plant = await Plant.findOne({ name: req.params.name });
-  } catch (error) {
-    res.status(404).json("Could not find plant!");
+  if (
+    req.params.name === "Sunflower" ||
+    "Lily" ||
+    "Croton" ||
+    "Corn Plant" ||
+    "Moth Orchid" ||
+    "Golden Pothos"
+  ) {
+    try {
+      plant = await Plant.findOne({ name: req.params.name });
+    } catch (error) {
+      res.status(404).json("Could not find plant!");
+    }
+    res.status(200).json(plant);
+  } else {
+    res.send(null);
   }
-  res.status(200).json(plant);
 };
 
 const addplant = async (req, res, next) => {
@@ -55,7 +66,7 @@ const addplant = async (req, res, next) => {
   });
   try {
     await createdPlant.save();
-    res.json({ createdPlant});
+    res.json({ createdPlant });
   } catch (error) {
     res.send("Could not add the plant");
   }
